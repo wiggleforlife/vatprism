@@ -31,7 +31,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.io.IoBuilder;
 
+import java.io.IOException;
 import java.util.List;
+import net.marvk.fs.vatsim.map.discord.DiscordClient;
 
 @Log4j2
 public class App extends MvvmfxGuiceApplication {
@@ -116,6 +118,9 @@ public class App extends MvvmfxGuiceApplication {
         log.info("Creating scene");
         secondaryStage.setScene(new Scene(viewTuple.getView(), 1366, 768));
         log.info("Showing stage");
+
+        final DiscordClient discordClient = DependencyInjector.getInstance().getInstanceOf(DiscordClient.class);
+        discordClient.start();
 
         secondaryStage.show();
         setStageSizeAndPositionFromPreferences(secondaryStage, preferences);
