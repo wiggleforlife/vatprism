@@ -1,10 +1,12 @@
 package net.marvk.fs.vatsim.map.discord;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.CreateParams;
 import de.jcm.discordgamesdk.activity.Activity;
 import lombok.extern.log4j.Log4j2;
+import net.marvk.fs.vatsim.map.data.Preferences;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,8 +17,22 @@ import java.time.Instant;
 @Singleton
 public class DiscordClient
 {
+    private static final String PREFERENCE_KEY = "general.discord_rich_presence";
+
+    private final Preferences prefs;
+
+    @Inject()
+    public DiscordClient(final Preferences preferences) {
+        this.prefs = preferences;
+    }
+
+    //TODO add function desc
     public void start()
     {
+        if(!this.prefs.booleanProperty(DiscordClient.PREFERENCE_KEY).get()) {
+            return;
+        }
+
         try {
             Core.initDownload();
         } catch (IOException e) {

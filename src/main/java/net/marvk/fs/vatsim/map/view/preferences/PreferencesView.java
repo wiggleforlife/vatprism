@@ -137,7 +137,7 @@ public class PreferencesView {
         final DoubleProperty scrollSpeed = preferences.doubleProperty("general.scroll_speed");
         final BooleanProperty social = preferences.booleanProperty("general.social");
         final BooleanProperty cacheMapData = preferences.booleanProperty("general.use_map_data_cache");
-
+        final BooleanProperty discordRPC = preferences.booleanProperty("general.discord_rich_presence");
         final BooleanProperty debug = preferences.booleanProperty("general.debug");
         final BooleanProperty prereleases = preferences.booleanProperty("general.prereleases");
         final BooleanProperty deleteOldLogs = preferences.booleanProperty("general.delete_old_logs");
@@ -162,6 +162,7 @@ public class PreferencesView {
                         Setting.of("Map Font Size", property, 4, 72),
                         Setting.of("Scroll Speed", scrollSpeed, 1.1, 16, 2),
                         Setting.of("Show Twitch stream links", social),
+                        Setting.of("Show Discord Rich Presence", discordRPC),
                         Setting.of("Cache static map data", cacheMapData),
                         Setting.of(infoLabel("Accelerates startup time, outdated map data will still be updated automatically", INFO_STYLE)),
                         Setting.of(openConfigDirectory)

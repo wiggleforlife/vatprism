@@ -56,6 +56,7 @@ public class ConfigFilePreferences implements Preferences, Writable {
         booleanProperty("general.use_map_data_cache", true);
         integerProperty("general.map_data_cache_ttl", (int) Duration.ofDays(7).toSeconds());
         booleanProperty("general.social", true);
+        booleanProperty("general.discord_rich_presence", true);
         booleanProperty("general.auto_reload", false);
         integerProperty("general.font_size", 12);
         integerProperty("general.map_font_size", 12);
