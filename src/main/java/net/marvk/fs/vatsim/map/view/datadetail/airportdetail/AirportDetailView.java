@@ -1,10 +1,12 @@
 package net.marvk.fs.vatsim.map.view.datadetail.airportdetail;
 
+import de.saxsys.mvvmfx.internal.viewloader.DependencyInjector;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import net.marvk.fs.vatsim.map.data.Airport;
 import net.marvk.fs.vatsim.map.data.FlightInformationRegionBoundary;
+import net.marvk.fs.vatsim.map.discord.DiscordClient;
 import net.marvk.fs.vatsim.map.view.BindingsUtil;
 import net.marvk.fs.vatsim.map.view.datadetail.DataDetailPane;
 import net.marvk.fs.vatsim.map.view.datadetail.controllersdetail.ControllersDetailView;
@@ -16,6 +18,7 @@ import java.util.List;
 
 public class AirportDetailView extends DataDetailSubView<AirportDetailViewModel, Airport> {
     private static final String HYPERLINK_LABEL = "hyperlink-label";
+
     @FXML
     private Label country;
 
@@ -60,6 +63,9 @@ public class AirportDetailView extends DataDetailSubView<AirportDetailViewModel,
         position.textProperty().bind(BindingsUtil.position(airport.positionProperty()));
         status.setHeaderText(airport.getIcao());
         final FlightInformationRegionBoundary firb = airport.getFlightInformationRegionBoundary();
+
+        final DiscordClient discordClient = DependencyInjector.getInstance().getInstanceOf(DiscordClient.class);
+        discordClient.updateActivity(name.getText(), "Viewing an airport");
 
         if (firb == null) {
             fir.getStyleClass().remove(HYPERLINK_LABEL);

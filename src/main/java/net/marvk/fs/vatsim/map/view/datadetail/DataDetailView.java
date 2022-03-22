@@ -1,6 +1,7 @@
 package net.marvk.fs.vatsim.map.view.datadetail;
 
 import de.saxsys.mvvmfx.*;
+import de.saxsys.mvvmfx.internal.viewloader.DependencyInjector;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -10,6 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import net.marvk.fs.vatsim.map.data.*;
+import net.marvk.fs.vatsim.map.discord.DiscordClient;
 import net.marvk.fs.vatsim.map.view.datadetail.airportdetail.AirportDetailView;
 import net.marvk.fs.vatsim.map.view.datadetail.airportdetail.AirportDetailViewModel;
 import net.marvk.fs.vatsim.map.view.datadetail.controllerdetail.ControllerDetailView;
@@ -92,6 +94,8 @@ public class DataDetailView implements FxmlView<DataDetailViewModel> {
 
     @FXML
     private void hide() {
+        final DiscordClient discordClient = DependencyInjector.getInstance().getInstanceOf(DiscordClient.class);
+        discordClient.useActivityTemplate("idle");
         viewModel.dataProperty().set(null);
     }
 
