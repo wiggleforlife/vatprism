@@ -31,12 +31,16 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.io.IoBuilder;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import net.marvk.fs.vatsim.map.discord.DiscordClient;
 
 @Log4j2
 public class App extends MvvmfxGuiceApplication {
+
+    private final ExecutorService exe = Executors.newSingleThreadExecutor();
 
     public static void main(final String[] args) {
         System.setErr(IoBuilder.forLogger("System.err").setLevel(Level.ERROR).buildPrintStream());
@@ -119,8 +123,9 @@ public class App extends MvvmfxGuiceApplication {
         secondaryStage.setScene(new Scene(viewTuple.getView(), 1366, 768));
         log.info("Showing stage");
 
+        log.info("Creating Discord client and activity");
         final DiscordClient discordClient = DependencyInjector.getInstance().getInstanceOf(DiscordClient.class);
-        discordClient.start();
+        exe.submit(discordClient::start);
 
         secondaryStage.show();
         setStageSizeAndPositionFromPreferences(secondaryStage, preferences);

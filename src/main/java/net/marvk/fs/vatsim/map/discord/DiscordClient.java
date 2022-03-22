@@ -27,8 +27,7 @@ public class DiscordClient
     }
 
     //TODO add function desc
-    public void start()
-    {
+    public void start() {
         if(!this.prefs.booleanProperty(DiscordClient.PREFERENCE_KEY).get()) {
             return;
         }
@@ -36,20 +35,18 @@ public class DiscordClient
         try {
             Core.initDownload();
         } catch (IOException e) {
-            e.printStackTrace(); //TODO better logging
+            log.error("Discord Native Library download failed");
+            log.error(e.getStackTrace());
         }
 
         // Set parameters for the Core
-        try(CreateParams params = new CreateParams())
-        {
+        try(CreateParams params = new CreateParams()) {
             params.setClientID(955362289949761547L); //TODO replace with a production version
             params.setFlags(CreateParams.getDefaultFlags());
             // Create the Core
-            try(Core core = new Core(params))
-            {
+            try(Core core = new Core(params)) {
                 // Create the Activity
-                try(Activity activity = new Activity())
-                {
+                try(Activity activity = new Activity()) {
                     activity.setDetails("DEV TEST");
                     activity.setState("Idle");
 
@@ -65,16 +62,14 @@ public class DiscordClient
                 }
 
                 // Run callbacks forever
-                while(true)
-                {
+                log.info("Starting RPC callback");
+                while(true) {
                     core.runCallbacks();
-                    try
-                    {
+                    try {
                         // Sleep a bit to save CPU
                         Thread.sleep(16);
                     }
-                    catch(InterruptedException e)
-                    {
+                    catch(InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
